@@ -4,11 +4,12 @@ import time
 
 OLLAMA_URL = "http://localhost:11434"
 OLLAMA_MODEL = "llama3"
+OLLAMA_TIMEOUT = 300  # 5 minutes
 
 # --- Ollama Availability ---
 def is_ollama_available() -> bool:
     try:
-        resp = httpx.get(f"{OLLAMA_URL}/api/tags", timeout=1)
+        resp = httpx.get(f"{OLLAMA_URL}/api/tags", timeout=5)
         return resp.status_code == 200
     except Exception:
         return False
@@ -20,7 +21,7 @@ def generate_response(prompt: str) -> Tuple[str, str]:
             resp = httpx.post(
                 f"{OLLAMA_URL}/api/generate",
                 json={"model": OLLAMA_MODEL, "prompt": prompt, "stream": False},
-                timeout=30
+                timeout=OLLAMA_TIMEOUT
             )
             text = resp.text.strip()
             if '\n' in text:
@@ -43,7 +44,7 @@ def stream_response(prompt: str) -> Tuple[Generator[str, None, None], str]:
                     "POST",
                     f"{OLLAMA_URL}/api/generate",
                     json={"model": OLLAMA_MODEL, "prompt": prompt, "stream": True},
-                    timeout=60
+                    timeout=OLLAMA_TIMEOUT
                 ) as resp:
                     for line in resp.iter_lines():
                         if line:

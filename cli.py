@@ -2,6 +2,8 @@ import argparse
 import httpx
 import sys
 
+CLI_TIMEOUT = 300  # 5 minutes
+
 def main():
     parser = argparse.ArgumentParser(description="MiniVault CLI: Send a prompt to the local API.")
     parser.add_argument("prompt", type=str, help="Prompt to send")
@@ -12,9 +14,9 @@ def main():
         try:
             with httpx.stream(
                 "POST",
-                "http://localhost:8000/stream",
+                "http://127.0.0.1:8000/stream",
                 json={"prompt": args.prompt},
-                timeout=60
+                timeout=CLI_TIMEOUT
             ) as resp:
                 if resp.status_code != 200:
                     print(f"[Error: {resp.status_code} {resp.reason_phrase}]")
@@ -33,7 +35,7 @@ def main():
     else:
         try:
             print("[Waiting for response...]")
-            resp = httpx.post("http://localhost:8000/generate", json={"prompt": args.prompt})
+            resp = httpx.post("http://127.0.0.1:8000/generate", json={"prompt": args.prompt}, timeout=CLI_TIMEOUT)
             resp.raise_for_status()
             data = resp.json()
             print(data.get("response", "[No response]"))
