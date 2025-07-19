@@ -12,7 +12,7 @@ See a full walkthrough of setup, stubbed and Ollama-backed responses, and API te
 
 ## [Watch the demo video on YouTube](https://www.youtube.com/watch?v=PQ7KdvKRDiI)
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/PQ7KdvKRDiI" title="MiniVault API Demo" frameborder="0" allowfullscreen></iframe>
+[![Watch the demo](https://img.youtube.com/vi/PQ7KdvKRDiI/0.jpg)](https://www.youtube.com/watch?v=PQ7KdvKRDiI)
 
 ## 🚀 Features
 
